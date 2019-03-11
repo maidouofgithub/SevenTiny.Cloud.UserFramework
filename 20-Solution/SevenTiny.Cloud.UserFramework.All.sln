@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenTiny.Cloud.UserFramework.Core", "..\10-Code\SevenTiny.Cloud.UserFramework.Core\SevenTiny.Cloud.UserFramework.Core.csproj", "{887DB935-C787-4AEB-9802-0D31F8294031}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Component", "Component", "{8405A102-2226-45B1-A446-D953A0242EA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{2A94FE99-94EB-4375-91C0-4EA59B2BF142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenTiny.Cloud.UserFramework.Infrastructure", "..\10-Code\SevenTiny.Cloud.UserFramework.Infrastructure\SevenTiny.Cloud.UserFramework.Infrastructure.csproj", "{81999A13-7EE3-48FD-BD6C-F2DE0E632EC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{FEC1B0F1-40B6-4C36-AB58-4420F4BA755C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenTiny.Cloud.UserFramework.UserManagement", "..\10-Code\SevenTiny.Cloud.UserFramework.UserManagement\SevenTiny.Cloud.UserFramework.UserManagement.csproj", "{E5B24144-0081-4D12-B755-387DED2DEB55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenTiny.Cloud.UserFramework.TokenAuthentication", "..\10-Code\SevenTiny.Cloud.UserFramework.TokenAuthentication\SevenTiny.Cloud.UserFramework.TokenAuthentication.csproj", "{64BCFF12-4F88-4909-9C19-E3EEDE55F482}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{887DB935-C787-4AEB-9802-0D31F8294031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{887DB935-C787-4AEB-9802-0D31F8294031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{887DB935-C787-4AEB-9802-0D31F8294031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{887DB935-C787-4AEB-9802-0D31F8294031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81999A13-7EE3-48FD-BD6C-F2DE0E632EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81999A13-7EE3-48FD-BD6C-F2DE0E632EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81999A13-7EE3-48FD-BD6C-F2DE0E632EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81999A13-7EE3-48FD-BD6C-F2DE0E632EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5B24144-0081-4D12-B755-387DED2DEB55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5B24144-0081-4D12-B755-387DED2DEB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5B24144-0081-4D12-B755-387DED2DEB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5B24144-0081-4D12-B755-387DED2DEB55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64BCFF12-4F88-4909-9C19-E3EEDE55F482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64BCFF12-4F88-4909-9C19-E3EEDE55F482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64BCFF12-4F88-4909-9C19-E3EEDE55F482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64BCFF12-4F88-4909-9C19-E3EEDE55F482}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{887DB935-C787-4AEB-9802-0D31F8294031} = {8405A102-2226-45B1-A446-D953A0242EA5}
+		{81999A13-7EE3-48FD-BD6C-F2DE0E632EC2} = {2A94FE99-94EB-4375-91C0-4EA59B2BF142}
+		{E5B24144-0081-4D12-B755-387DED2DEB55} = {8405A102-2226-45B1-A446-D953A0242EA5}
+		{64BCFF12-4F88-4909-9C19-E3EEDE55F482} = {8405A102-2226-45B1-A446-D953A0242EA5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC20692A-631E-4F97-8778-343FC09BB7A9}
+	EndGlobalSection
+EndGlobal
