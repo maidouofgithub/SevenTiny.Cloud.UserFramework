@@ -6,8 +6,6 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
 {
     public interface IAccountService : IUserCommonInfoRepository<Account>
     {
-        Result AddAccount(Account account);
-        Result UpdateAccount(Account account);
         /// <summary>
         /// 校验密码
         /// </summary>
@@ -29,6 +27,18 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
         /// <returns></returns>
         Result ChangeEmail(int userId, string email);
         Result ChangePhone(int userId, string phone);
+        /// <summary>
+        /// 根据注册方式发送验证信息
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         Result SendRegisterMsgByRegisteredMedia(Account account);
+        /// <summary>
+        /// 根据注册方式校验验证信息
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="verificationCode">校验码，可以是各种字符串，如手机验证码，邮箱注册加密串等</param>
+        /// <returns></returns>
+        Result VerifyRegisterInfoByRegisteredMedia(Account account, string verificationCode);
     }
 }

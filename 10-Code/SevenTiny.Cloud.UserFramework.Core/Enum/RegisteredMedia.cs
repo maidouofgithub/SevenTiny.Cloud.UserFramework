@@ -8,7 +8,7 @@
         /// <summary>
         /// 未知
         /// </summary>
-        UnKnown = -1,
+        UnKnown = 0,
         /// <summary>
         /// 手机
         /// </summary>

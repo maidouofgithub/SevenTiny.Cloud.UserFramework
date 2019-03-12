@@ -6,7 +6,5 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
 {
     public interface IUserInfoService : IUserCommonInfoRepository<UserInfo>
     {
-        Result AddUserInfo(UserInfo userInfo);
-        Result UpdateUserInfo(UserInfo userInfo);
     }
 }

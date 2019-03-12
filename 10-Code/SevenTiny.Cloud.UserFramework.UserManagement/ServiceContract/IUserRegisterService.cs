@@ -15,7 +15,8 @@ namespace SevenTiny.Cloud.UserFramework.UserManagement.ServiceContract
         /// 校验注册验证信息然后完成注册动作
         /// </summary>
         /// <param name="userInfoDTO"></param>
+        /// <param name="verificationCode"></param>
         /// <returns></returns>
-        Result ValidateRegisterInfoAndAccomplish(UserInfoDTO userInfoDTO);
+        Result VerifyRegisterInfoAndAccomplish(UserInfoDTO userInfoDTO, string verificationCode);
     }
 }

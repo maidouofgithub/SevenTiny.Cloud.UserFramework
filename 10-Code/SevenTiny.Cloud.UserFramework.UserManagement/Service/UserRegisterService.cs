@@ -9,39 +9,49 @@ namespace SevenTiny.Cloud.UserFramework.UserManagement.Service
 {
     public class UserRegisterService : IUserRegisterService
     {
-        public UserRegisterService(IAccountService _accountService)
+        public UserRegisterService(
+            IAccountService _accountService,
+             IUserInfoService _userInfoService
+            )
         {
             accountService = _accountService;
+            userInfoService = _userInfoService;
         }
 
         private readonly IAccountService accountService;
+        private readonly IUserInfoService userInfoService;
 
         public Result RegisterAction(UserInfoDTO userInfoDTO)
         {
             return Result.Success()
                 .ContinueAssert(userInfoDTO == null, "注册信息不能为空")
-                .ContinueAssert(userInfoDTO.RegisteredMedia == 0 || userInfoDTO.RegisteredMedia == (int)Core.Enum.RegisteredMedia.UnKnown, "注册方式未确认")
+                .ContinueAssert(userInfoDTO.RegisteredMedia == (int)Core.Enum.RegisteredMedia.UnKnown, "注册方式未确认")
                 .Continue(() =>
                 {
-                    return accountService.SendRegisterMsgByRegisteredMedia(new Account
-                    {
-                        Name = userInfoDTO.Name,
-                        RegisteredMedia = userInfoDTO.RegisteredMedia,
-                        Email = userInfoDTO.Email,
-                        Phone = userInfoDTO.Phone
-                    });
+                    return accountService.SendRegisterMsgByRegisteredMedia(userInfoDTO.ToAccount());
                 })
                 ;
         }
 
-        //这个方法的契约待定
-        public Result ValidateRegisterInfoAndAccomplish(UserInfoDTO userInfoDTO)
+        public Result VerifyRegisterInfoAndAccomplish(UserInfoDTO userInfoDTO, string verificationCode)
         {
-            return TransactionHelper.Transaction<Result>(() =>
-            {
-                //先校验注册校验信息
-                return Result.Error();
-            });
+            return Result.Success()
+                .Continue(() =>
+                {
+                    //校验验证码
+                    return accountService.VerifyRegisterInfoByRegisteredMedia(userInfoDTO.ToAccount(), verificationCode);
+                })
+                .Continue(() =>
+                {
+                    return TransactionHelper.Transaction<Result>(() =>
+                    {
+                        return userInfoService.Add(userInfoDTO.ToUserInfo())
+                        .Continue(() =>
+                        {
+                            return accountService.Add(userInfoDTO.ToAccount());
+                        });
+                    });
+                });
         }
     }
 }

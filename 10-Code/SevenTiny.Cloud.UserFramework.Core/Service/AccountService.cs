@@ -34,7 +34,7 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
             return MD5Helper.GetMd5Hash(string.Concat(saltBefore, pwd, saltAfter));
         }
 
-        public Result AddAccount(Account account)
+        public new Result Add(Account account)
         {
             //密码加盐
             account.Password = GetSaltPwd(account.Password);
@@ -42,7 +42,7 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
             return Result.Success();
         }
 
-        public Result UpdateAccount(Account account)
+        public new Result Update(Account account)
         {
             var old = base.GetByUserId(account.UserId);
             if (old != null)
@@ -114,15 +114,33 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
                 case Core.Enum.RegisteredMedia.UnKnown:
                     return Result.Error("注册方式未确认");
                 case Core.Enum.RegisteredMedia.Phone:
-                    break;
+                    return Result.Success();
                 case Core.Enum.RegisteredMedia.SMS:
-                    break;
+                    return Result.Success();
                 case Core.Enum.RegisteredMedia.Email:
-                    break;
+                    return Result.Success();
                 default:
                     break;
             }
-            return Result.Success();
+            return Result.Error();
+        }
+
+        public Result VerifyRegisterInfoByRegisteredMedia(Account account, string verificationCode)
+        {
+            switch ((Core.Enum.RegisteredMedia)account.RegisteredMedia)
+            {
+                case Core.Enum.RegisteredMedia.UnKnown:
+                    return Result.Error("注册方式未确认");
+                case Core.Enum.RegisteredMedia.Phone:
+                    return Result.Success();
+                case Core.Enum.RegisteredMedia.SMS:
+                    return Result.Success();
+                case Core.Enum.RegisteredMedia.Email:
+                    return Result.Success();
+                default:
+                    break;
+            }
+            return Result.Error("验证注册验证码发生未知异常");
         }
     }
 }

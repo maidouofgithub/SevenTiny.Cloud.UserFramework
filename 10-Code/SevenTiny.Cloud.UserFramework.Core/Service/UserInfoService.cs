@@ -17,14 +17,14 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
 
         UserFrameworkDbContext dbContext;
 
-        public Result AddUserInfo(UserInfo userInfo)
+        public new Result Add(UserInfo userInfo)
         {
             base.Add(userInfo);
 
             return Result.Success();
         }
 
-        public Result UpdateUserInfo(UserInfo userInfo)
+        public new Result Update(UserInfo userInfo)
         {
             var old = base.GetByUserId(userInfo.UserId);
             if (old != null)

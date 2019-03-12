@@ -10,7 +10,7 @@ namespace SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject
 
         public Result() { }
 
-        public Result(bool isSuccess, string message, object data)
+        public Result(bool isSuccess, string message = null, object data = null)
         {
             IsSuccess = isSuccess;
             Message = message;
@@ -35,9 +35,7 @@ namespace SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject
         }
         public static Result ContinueAssert(this Result result, bool assertResult, string message)
         {
-            return result.IsSuccess ?
-                assertResult ? result : Result.Error(message)
-                : result;
+            return result.IsSuccess ? new Result(assertResult, message) : result;
         }
     }
 }
