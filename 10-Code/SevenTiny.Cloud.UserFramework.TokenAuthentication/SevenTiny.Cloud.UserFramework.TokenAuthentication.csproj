@@ -8,4 +8,9 @@
     <ProjectReference Include="..\SevenTiny.Cloud.UserFramework.Infrastructure\SevenTiny.Cloud.UserFramework.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ServiceContract\" />
+    <Folder Include="Service\" />
+  </ItemGroup>
+
 </Project>

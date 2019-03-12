@@ -6,6 +6,7 @@ using System.Text;
 using SevenTiny.Cloud.UserFramework.Core.Entity;
 using SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject;
 using SevenTiny.Bantina.Security;
+using SevenTiny.Cloud.UserFramework.Core.Const;
 
 namespace SevenTiny.Cloud.UserFramework.Core.Service
 {
@@ -18,10 +19,6 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
 
         UserFrameworkDbContext dbContext;
 
-        //密码加密的盐值
-        private static readonly string saltBefore = "seventiny.cloud.";
-        private static readonly string saltAfter = ".CYj(9yyz*8";
-
         /// <summary>
         /// 为密码加盐
         /// </summary>
@@ -30,8 +27,7 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
         private string GetSaltPwd(string pwd)
         {
             //为降低暴力破解的可能，密码强制前后加盐
-            //saltPwd="seventiny.cloud.123456.CYj(9yyz*8"
-            return MD5Helper.GetMd5Hash(string.Concat(saltBefore, pwd, saltAfter));
+            return MD5Helper.GetMd5Hash(string.Concat(SecretKeyConst.SaltBefore, "account", pwd, SecretKeyConst.SaltAfter));
         }
 
         public new Result Add(Account account)
