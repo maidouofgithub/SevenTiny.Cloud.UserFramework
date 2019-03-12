@@ -21,32 +21,32 @@ namespace SevenTiny.Cloud.UserFramework.UserManagement.Service
         private readonly IAccountService accountService;
         private readonly IUserInfoService userInfoService;
 
-        public Result RegisterAction(UserInfoDTO userInfoDTO)
+        public Result RegisterAction(Account account)
         {
             return Result.Success()
-                .ContinueAssert(userInfoDTO == null, "注册信息不能为空")
-                .ContinueAssert(userInfoDTO.RegisteredMedia == (int)Core.Enum.RegisteredMedia.UnKnown, "注册方式未确认")
-                .Continue(() =>
+                .ContinueAssert(account == null, "注册信息不能为空")
+                .ContinueAssert(account.RegisteredMedia == (int)Core.Enum.RegisteredMedia.UnKnown, "注册方式未确认")
+                .Continue(result =>
                 {
-                    return accountService.SendRegisterMsgByRegisteredMedia(userInfoDTO.ToAccount());
+                    return accountService.SendRegisterMsgByRegisteredMedia(account);
                 })
                 ;
         }
 
-        public Result VerifyRegisterInfoAndAccomplish(UserInfoDTO userInfoDTO, string verificationCode)
+        public Result VerifyRegisterInfoAndAccomplish(UserInfoDTO userInfoDTO)
         {
             return Result.Success()
-                .Continue(() =>
+                .Continue(result =>
                 {
                     //校验验证码
-                    return accountService.VerifyRegisterInfoByRegisteredMedia(userInfoDTO.ToAccount(), verificationCode);
+                    return accountService.VerifyRegisterInfoByRegisteredMedia(userInfoDTO.ToAccount(), userInfoDTO.VerificationCode);
                 })
-                .Continue(() =>
+                .Continue(result =>
                 {
                     return TransactionHelper.Transaction<Result>(() =>
                     {
                         return userInfoService.Add(userInfoDTO.ToUserInfo())
-                        .Continue(() =>
+                        .Continue(re =>
                         {
                             return accountService.Add(userInfoDTO.ToAccount());
                         });

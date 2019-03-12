@@ -20,5 +20,11 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
         /// <param name="account"></param>
         /// <returns></returns>
         string GenerateToken(Account account);
+        /// <summary>
+        /// token解码
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        Account TokenDecrypt(string token);
     }
 }

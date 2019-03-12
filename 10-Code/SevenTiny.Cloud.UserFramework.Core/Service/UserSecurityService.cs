@@ -33,5 +33,10 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
                 ExpiredTime = DateTime.Now.AddSeconds(double.Parse(UserFrameworkConfig.Get("TokenEffectiveTime")))
             }.Attach(account)), UserFrameworkConfig.Get("RSA_PublicKey"));
         }
+
+        public Account TokenDecrypt(string token)
+        {
+            return JsonConvert.DeserializeObject<Account>(RSAHelper.Decrypt(token, UserFrameworkConfig.Get("RSA_PrivateKey")));
+        }
     }
 }

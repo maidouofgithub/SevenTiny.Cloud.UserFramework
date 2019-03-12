@@ -29,9 +29,9 @@ namespace SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject
 
     public static class ResultExtension
     {
-        public static Result Continue(this Result result, Func<Result> executor)
+        public static Result Continue(this Result result, Func<Result, Result> executor)
         {
-            return result.IsSuccess ? executor() : result;
+            return result.IsSuccess ? executor(result) : result;
         }
         public static Result ContinueAssert(this Result result, bool assertResult, string message)
         {
