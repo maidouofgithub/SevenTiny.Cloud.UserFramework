@@ -9,12 +9,12 @@ namespace SevenTiny.Cloud.UserFramework.UserManagement.Service
 {
     public class UserRegisterService : IUserRegisterService
     {
-        public UserRegisterService(IUserService _userService)
+        public UserRegisterService(IAccountService _accountService)
         {
-            userService = _userService;
+            accountService = _accountService;
         }
 
-        private readonly IUserService userService;
+        private readonly IAccountService accountService;
 
         public Result RegisterAction(UserInfoDTO userInfoDTO)
         {
@@ -23,7 +23,7 @@ namespace SevenTiny.Cloud.UserFramework.UserManagement.Service
                 .ContinueAssert(userInfoDTO.RegisteredMedia == 0 || userInfoDTO.RegisteredMedia == (int)Core.Enum.RegisteredMedia.UnKnown, "注册方式未确认")
                 .Continue(() =>
                 {
-                    return userService.SendRegisterMsgByRegisteredMedia(new User
+                    return accountService.SendRegisterMsgByRegisteredMedia(new Account
                     {
                         Name = userInfoDTO.Name,
                         RegisteredMedia = userInfoDTO.RegisteredMedia,

@@ -4,10 +4,10 @@ using SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject;
 
 namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
 {
-    public interface IUserService : IUserCommonInfoRepository<User>
+    public interface IAccountService : IUserCommonInfoRepository<Account>
     {
-        Result AddUser(User user);
-        Result UpdateUser(User user);
+        Result AddAccount(Account account);
+        Result UpdateAccount(Account account);
         /// <summary>
         /// 校验密码
         /// </summary>
@@ -25,10 +25,10 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
         /// <summary>
         /// 修改用户信息（特殊场景请直接调用修改单个字段的接口，不要直接调用这该接口）
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="account"></param>
         /// <returns></returns>
         Result ChangeEmail(int userId, string email);
         Result ChangePhone(int userId, string phone);
-        Result SendRegisterMsgByRegisteredMedia(User user);
+        Result SendRegisterMsgByRegisteredMedia(Account account);
     }
 }

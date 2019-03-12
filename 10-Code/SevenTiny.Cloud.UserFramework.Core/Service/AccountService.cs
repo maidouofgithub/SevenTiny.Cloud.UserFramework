@@ -9,9 +9,9 @@ using SevenTiny.Bantina.Security;
 
 namespace SevenTiny.Cloud.UserFramework.Core.Service
 {
-    public class UserService : UserCommonInfoRepository<User>, IUserService
+    public class AccountService : UserCommonInfoRepository<Account>, IAccountService
     {
-        public UserService(UserFrameworkDbContext _dbContext) : base(_dbContext)
+        public AccountService(UserFrameworkDbContext _dbContext) : base(_dbContext)
         {
             dbContext = _dbContext;
         }
@@ -34,22 +34,22 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
             return MD5Helper.GetMd5Hash(string.Concat(saltBefore, pwd, saltAfter));
         }
 
-        public Result AddUser(User user)
+        public Result AddAccount(Account account)
         {
             //密码加盐
-            user.Password = GetSaltPwd(user.Password);
-            base.Add(user);
+            account.Password = GetSaltPwd(account.Password);
+            base.Add(account);
             return Result.Success();
         }
 
-        public Result UpdateUser(User user)
+        public Result UpdateAccount(Account account)
         {
-            var old = base.GetByUserId(user.UserId);
+            var old = base.GetByUserId(account.UserId);
             if (old != null)
             {
-                old.Name = user.Name;
-                old.Email = user.Email;
-                old.Phone = user.Phone;
+                old.Name = account.Name;
+                old.Email = account.Email;
+                old.Phone = account.Phone;
                 return base.Update(old);
             }
             return Result.Error();
@@ -107,9 +107,9 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
             return Result.Error();
         }
 
-        public Result SendRegisterMsgByRegisteredMedia(User user)
+        public Result SendRegisterMsgByRegisteredMedia(Account account)
         {
-            switch ((Core.Enum.RegisteredMedia)user.RegisteredMedia)
+            switch ((Core.Enum.RegisteredMedia)account.RegisteredMedia)
             {
                 case Core.Enum.RegisteredMedia.UnKnown:
                     return Result.Error("注册方式未确认");

@@ -6,7 +6,7 @@ namespace SevenTiny.Cloud.UserFramework.Core.Entity
     /// 用户的主信息
     /// </summary>
     [Table]
-    public class User : UserCommonInfo
+    public class Account : UserCommonInfo
     {
         [Column]
         public int TenantId { get; set; }
