@@ -6,13 +6,14 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
 {
     public interface IAccountService : IUserCommonInfoRepository<Account>
     {
+        Result IsExist(int userId);
+        Result ValidateRegisterd(string phone, string email);
         /// <summary>
-        /// 校验密码
+        /// 正常登陆是不知道userid的，用下面这个对象承载登陆信息进行校验
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="pwd"></param>
+        /// <param name="account"></param>
         /// <returns></returns>
-        bool VerifyPassword(int userId, string pwd);
+        Result VerifyPassword(Account account);
         /// <summary>
         /// 修改密码
         /// </summary>

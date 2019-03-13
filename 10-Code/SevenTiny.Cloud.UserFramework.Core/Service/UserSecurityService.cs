@@ -6,6 +6,7 @@ using SevenTiny.Cloud.UserFramework.Core.Repository;
 using SevenTiny.Cloud.UserFramework.Core.ServiceContract;
 using SevenTiny.Cloud.UserFramework.Core.ValueObject;
 using SevenTiny.Cloud.UserFramework.Infrastructure.Configs;
+using SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,16 +15,49 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
 {
     public class UserSecurityService : Repository<UserSecurity>, IUserSecurityService
     {
-        public UserSecurityService(UserFrameworkDbContext _dbContext) : base(_dbContext)
+        public UserSecurityService(
+            UserFrameworkDbContext _dbContext,
+            IAccountService _accountService
+            ) : base(_dbContext)
         {
             dbContext = _dbContext;
+            accountService = _accountService;
         }
 
-        UserFrameworkDbContext dbContext;
+        private readonly UserFrameworkDbContext dbContext;
+        private readonly IAccountService accountService;
 
-        public string GenerateSecretKey(int userId)
+        public Result GenerateSecretKey(int userId)
         {
-            return MD5Helper.GetMd5Hash(string.Concat(SecretKeyConst.SaltBefore, "SecretKey", userId, SecretKeyConst.SaltAfter));
+            return Result.Success()
+                //校验用户是否注册
+                .Continue(accountService.IsExist(userId))
+                //生成密钥
+                .Continue(re =>
+                {
+                    string secretKey = MD5Helper.GetMd5Hash(string.Concat(SecretKeyConst.SaltBefore, "SecretKey", userId, DateTime.Now.ToString(), SecretKeyConst.SaltAfter));
+                    if (!double.TryParse(UserFrameworkConfig.Get("SecretKeyEffectiveTime"), out double secretKeyEffectiveTime))
+                        return Result.Error("获取密钥过期时间配置错误");
+                    var expiredTime = DateTime.Now.AddSeconds(secretKeyEffectiveTime);
+                    var userSecrity = dbContext.QueryOne<UserSecurity>(t => t.UserId == userId);
+                    if (userSecrity == null)
+                    {
+                        dbContext.Add<UserSecurity>(new UserSecurity
+                        {
+                            UserId = userId,
+                            SecretKey = secretKey,
+                            ExpiredTime = expiredTime
+                        });
+                    }
+                    else
+                    {
+                        userSecrity.SecretKey = secretKey;
+                        userSecrity.ExpiredTime = expiredTime;
+                        dbContext.Update(userSecrity);
+                    }
+                    re.Data = secretKey;
+                    return re;
+                });
         }
 
         public string GenerateToken(Account account)

@@ -21,5 +21,9 @@ namespace SevenTiny.Cloud.UserFramework.Core.Entity
         /// </summary>
         [Column]
         public string PrivateKey { get; set; }
+        [Column]
+        public string SecretKey { get; set; }
+        [Column]
+        public DateTime ExpiredTime { get; set; }
     }
 }

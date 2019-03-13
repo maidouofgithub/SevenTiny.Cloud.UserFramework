@@ -19,6 +19,22 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
 
         UserFrameworkDbContext dbContext;
 
+        public Result IsExist(int userId)
+        {
+            return new Result { IsSuccess = dbContext.QueryExist<Account>(t => t.UserId == userId), Message = "该用户未注册" };
+        }
+
+        public Result ValidateRegisterd(string phone, string email)
+        {
+            return Result.Success()
+                            .ContinueAssert(string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(email), "邮箱或手机信息为空")
+                            .Continue(re =>
+                            {
+                                var exist = dbContext.QueryExist<Account>(t => t.Phone == phone || t.Email == email);
+                                return re.ContinueAssert(!exist, "已存在该用户的注册信息");
+                            });
+        }
+
         /// <summary>
         /// 为密码加盐
         /// </summary>
@@ -51,18 +67,18 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
             return Result.Error();
         }
 
-        public bool VerifyPassword(int userId, string pwd)
+        public Result VerifyPassword(Account account)
         {
-            var entity = base.GetByUserId(userId, t => new { t.UserId, t.Password });
-            if (entity != null)
-            {
-                //存储的加盐密码和传入的密码加盐的值相比较
-                if (entity.Password.Equals(GetSaltPwd(pwd)))
+            return Result.Success()
+                .ContinueAssert(string.IsNullOrEmpty(account.Phone) || string.IsNullOrEmpty(account.Email), "邮箱或手机信息为空")
+                .ContinueAssert(string.IsNullOrEmpty(account.Password), "用户密码信息为空")
+                .Continue(re =>
                 {
-                    return true;
-                }
-            }
-            return false;
+                    var entity = dbContext.QueryOne<Account>(t => t.Phone == account.Phone || t.Email == account.Email);
+                    return re
+                        .ContinueAssert(entity != null, "该用户未注册")
+                        .ContinueAssert(entity.Password.Equals(GetSaltPwd(account.Password)), "账号或密码不正确");
+                });
         }
 
         public Result ChangePassword(int userId, string newPwd)

@@ -50,5 +50,18 @@ namespace SevenTiny.Cloud.UserFramework.Api.Controllers
                 return JsonResultModel.Error(ex.ToString());
             }
         }
+
+        [Route("Account/Login")]
+        public IActionResult Login(Account account)
+        {
+            try
+            {
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return JsonResultModel.Error(ex.ToString());
+            }
+        }
     }
 }

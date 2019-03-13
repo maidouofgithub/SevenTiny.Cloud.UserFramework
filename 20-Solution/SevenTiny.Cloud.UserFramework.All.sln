@@ -21,6 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenTiny.Cloud.UserFramework.Api", "..\10-Code\SevenTiny.Cloud.UserFramework.Api\SevenTiny.Cloud.UserFramework.Api.csproj", "{0E049369-8091-472C-A24C-832020BBCCE8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-documents", "00-documents", "{0B50CE95-6CCE-4B4D-831B-891330F32387}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\wangdong3\Desktop\token-login.jpg = C:\Users\wangdong3\Desktop\token-login.jpg
+		C:\Users\wangdong3\Desktop\token-request.jpg = C:\Users\wangdong3\Desktop\token-request.jpg
+		登陆流程.md = 登陆流程.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

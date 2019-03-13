@@ -11,7 +11,7 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        string GenerateSecretKey(int userId);
+        Result GenerateSecretKey(int userId);
         /// <summary>
         /// 根据用户账号信息获取Token
         /// RSA256(账号信息+过期时间)
