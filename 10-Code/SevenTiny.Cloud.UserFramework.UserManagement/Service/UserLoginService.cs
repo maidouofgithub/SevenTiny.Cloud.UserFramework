@@ -2,7 +2,6 @@
 using SevenTiny.Cloud.UserFramework.Core.ServiceContract;
 using SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject;
 using SevenTiny.Cloud.UserFramework.UserManagement.ServiceContract;
-using SevenTiny.Cloud.UserFramework.UserManagement.ValueObject;
 
 namespace SevenTiny.Cloud.UserFramework.UserManagement.Service
 {
@@ -26,11 +25,7 @@ namespace SevenTiny.Cloud.UserFramework.UserManagement.Service
                 //校验用户身份
                 .Continue(accountService.VerifyPassword(account))
                 //生成token
-                .Continue(re =>
-                {
-                    re.Data = userSecurityService.GenerateToken(account);
-                    return re;
-                });
+                .Continue(userSecurityService.GenerateToken(account));
         }
     }
 }

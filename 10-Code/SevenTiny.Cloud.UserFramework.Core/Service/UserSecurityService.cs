@@ -60,12 +60,12 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
                 });
         }
 
-        public string GenerateToken(Account account)
+        public Result GenerateToken(Account account)
         {
-            return RSAHelper.Encrypt(JsonConvert.SerializeObject(new Token
+            return Result.Success("生成Token成功", RSAHelper.Encrypt(JsonConvert.SerializeObject(new Token
             {
                 ExpiredTime = DateTime.Now.AddSeconds(double.Parse(UserFrameworkConfig.Get("TokenEffectiveTime")))
-            }.Attach(account)), UserFrameworkConfig.Get("RSA_PublicKey"));
+            }.Attach(account)), UserFrameworkConfig.Get("RSA_PublicKey")));
         }
 
         public Account TokenDecrypt(string token)
