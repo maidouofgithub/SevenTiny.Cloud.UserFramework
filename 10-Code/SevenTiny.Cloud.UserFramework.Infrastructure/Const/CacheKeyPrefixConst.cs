@@ -12,6 +12,6 @@
         /// <summary>
         /// 手机验证码缓存前缀
         /// </summary>
-        public static readonly string REGISTER_PHONE_VERIFICATION_CODE_ = "REGISTER_PHONE_VERIFICATION_CODE_";
+        public static readonly string REGISTER_VERIFICATION_CODE_ = "REGISTER_VERIFICATION_CODE_";
     }
 }

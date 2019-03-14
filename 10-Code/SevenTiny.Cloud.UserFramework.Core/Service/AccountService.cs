@@ -7,6 +7,9 @@ using SevenTiny.Cloud.UserFramework.Core.Entity;
 using SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject;
 using SevenTiny.Bantina.Security;
 using SevenTiny.Cloud.UserFramework.Infrastructure.Const;
+using SevenTiny.Cloud.UserFramework.Infrastructure.Caching;
+using SevenTiny.Cloud.UserFramework.Infrastructure.DataGenerator;
+using SevenTiny.Cloud.UserFramework.Infrastructure.Configs;
 
 namespace SevenTiny.Cloud.UserFramework.Core.Service
 {
@@ -145,20 +148,20 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
                 case Core.Enum.RegisteredMedia.UnKnown:
                     return Result.Error("注册方式未确认");
                 case Core.Enum.RegisteredMedia.Phone:
+                    string randomCode = RandomNumberGenerator.NBitNumber(Convert.ToInt32(UserFrameworkConfig.Get("RandomNumberBit")));
                     return Result.Success();
                 case Core.Enum.RegisteredMedia.SMS:
                     return Result.Success();
                 case Core.Enum.RegisteredMedia.Email:
                     return Result.Success();
                 default:
-                    break;
+                    return Result.Error("注册方式未确认");
             }
-            return Result.Error();
         }
 
         public Result VerifyRegisterMsgByEmailLinkCode(string emailLinkVerificationCode)
         {
-            //这里需要在此解析玩链接后，校验用户是否被注册过
+            //这里需要在此解析完链接后，校验用户是否被注册过
             //...
 
             //Result的Data要返回email地址，上游要用
@@ -166,13 +169,28 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
         }
 
         public Result VerifyRegisterMsgByPhoneCode(string phone, string verificationCode)
-        {
-            throw new NotImplementedException();
-        }
+            => Result.Success()
+                .Continue(re =>
+                {
+                    var code = LocalCacheHelper.Get<string>(GetRegisterVerificationCodeKey(phone));
+                    return re
+                        .ContinueAssert(!string.IsNullOrEmpty(code), "验证码已过期")
+                        .ContinueAssert(code.Equals(verificationCode), "验证码不正确");
+                });
 
         public Result VerifyRegisterMsgByEmailCode(string email, string verificationCode)
+            => Result.Success()
+                .Continue(re =>
+                {
+                    var code = LocalCacheHelper.Get<string>(GetRegisterVerificationCodeKey(email));
+                    return re
+                        .ContinueAssert(!string.IsNullOrEmpty(code), "验证码已过期")
+                        .ContinueAssert(code.Equals(verificationCode), "验证码不正确");
+                });
+
+        private string GetRegisterVerificationCodeKey(string key)
         {
-            throw new NotImplementedException();
+            return string.Concat(CacheKeyPrefixConst.REGISTER_VERIFICATION_CODE_, key);
         }
     }
 }
