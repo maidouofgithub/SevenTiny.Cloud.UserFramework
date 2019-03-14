@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SevenTiny.Cloud.UserFramework.Api.Models;
 using SevenTiny.Cloud.UserFramework.Core.Entity;
+using SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject;
 using SevenTiny.Cloud.UserFramework.UserManagement.ServiceContract;
 using SevenTiny.Cloud.UserFramework.UserManagement.ValueObject;
 
@@ -25,11 +26,14 @@ namespace SevenTiny.Cloud.UserFramework.Api.Controllers
         private readonly IUserRegisterService userRegisterService;
 
         [Route("Account/PreRegister")]
-        public IActionResult PreRegister(Account account)
+        public IActionResult PreRegister(UserInfoDTO userInfoDTO)
         {
             try
             {
-                return userRegisterService.RegisterAction(account).ToJsonResultModel();
+                return Result.Success()
+                    .ContinueAssert(userInfoDTO != null, "注册信息不能为空")
+                    .Continue(userRegisterService.RegisterAction(userInfoDTO))
+                    .ToJsonResultModel();
             }
             catch (Exception ex)
             {
@@ -37,12 +41,48 @@ namespace SevenTiny.Cloud.UserFramework.Api.Controllers
             }
         }
 
-        [Route("Account/Register")]
-        public IActionResult Register(UserInfoDTO userInfoDTO)
+        [Route("Account/PhoneRegister")]
+        public IActionResult PhoneRegister(string phone, string verificationCode)
         {
             try
             {
-                return userRegisterService.VerifyRegisterInfoAndAccomplish(userInfoDTO)
+                return Result.Success()
+                    .ContinueAssert(!string.IsNullOrEmpty(phone), "手机号不能为空")
+                    .ContinueAssert(!string.IsNullOrEmpty(verificationCode), "验证码不能为空")
+                    .Continue(userRegisterService.VerifyPhoneAndAccomplish(phone, verificationCode))
+                    .ToJsonResultModel("注册成功");
+            }
+            catch (Exception ex)
+            {
+                return JsonResultModel.Error(ex.ToString());
+            }
+        }
+
+        [Route("Account/EmailCodeRegister")]
+        public IActionResult EmailCodeRegister(string email, string verificationCode)
+        {
+            try
+            {
+                return Result.Success()
+                    .ContinueAssert(!string.IsNullOrEmpty(email), "邮箱不能为空")
+                    .ContinueAssert(!string.IsNullOrEmpty(verificationCode), "验证码不能为空")
+                    .Continue(userRegisterService.VerifyEmailCodeAndAccomplish(email, verificationCode))
+                    .ToJsonResultModel("注册成功");
+            }
+            catch (Exception ex)
+            {
+                return JsonResultModel.Error(ex.ToString());
+            }
+        }
+
+        [Route("Account/EmailLinkRegister")]
+        public IActionResult EmailLinkRegister(string verificationCode)
+        {
+            try
+            {
+                return Result.Success()
+                    .ContinueAssert(!string.IsNullOrEmpty(verificationCode), "验证码不能为空")
+                    .Continue(userRegisterService.VerifyEmailLinkCodeAndAccomplish(verificationCode))
                     .ToJsonResultModel("注册成功");
             }
             catch (Exception ex)

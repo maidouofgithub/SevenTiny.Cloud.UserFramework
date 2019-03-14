@@ -9,14 +9,12 @@ namespace SevenTiny.Cloud.UserFramework.UserManagement.ServiceContract
         /// <summary>
         /// 执行注册动作(发送注册验证码等）
         /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
-        Result RegisterAction(Account account);
-        /// <summary>
-        /// 校验注册验证信息然后完成注册动作
-        /// </summary>
         /// <param name="userInfoDTO"></param>
         /// <returns></returns>
-        Result VerifyRegisterInfoAndAccomplish(UserInfoDTO userInfoDTO);
+        Result RegisterAction(UserInfoDTO userInfoDTO);
+
+        Result VerifyPhoneAndAccomplish(string phone, string verificationCode);
+        Result VerifyEmailCodeAndAccomplish(string email, string verificationCode);
+        Result VerifyEmailLinkCodeAndAccomplish(string emailLinkVerificationCode);
     }
 }

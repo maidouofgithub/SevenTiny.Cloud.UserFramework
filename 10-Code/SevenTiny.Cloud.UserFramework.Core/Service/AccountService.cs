@@ -6,7 +6,7 @@ using System.Text;
 using SevenTiny.Cloud.UserFramework.Core.Entity;
 using SevenTiny.Cloud.UserFramework.Infrastructure.ValueObject;
 using SevenTiny.Bantina.Security;
-using SevenTiny.Cloud.UserFramework.Core.Const;
+using SevenTiny.Cloud.UserFramework.Infrastructure.Const;
 
 namespace SevenTiny.Cloud.UserFramework.Core.Service
 {
@@ -27,11 +27,30 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
         public Result ValidateRegisterd(string phone, string email)
         {
             return Result.Success()
-                            .ContinueAssert(string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(email), "邮箱或手机信息为空")
+                            .ContinueAssert(!string.IsNullOrEmpty(phone) || !string.IsNullOrEmpty(email), "邮箱或手机信息为空")
                             .Continue(re =>
                             {
-                                var exist = dbContext.QueryExist<Account>(t => t.Phone == phone || t.Email == email);
+                                bool exist = false;
+                                if (!string.IsNullOrEmpty(phone))
+                                    exist = dbContext.QueryExist<Account>(t => t.Phone == phone);
+                                else if (!string.IsNullOrEmpty(email))
+                                    exist = dbContext.QueryExist<Account>(t => t.Email == email);
                                 return re.ContinueAssert(!exist, "已存在该用户的注册信息");
+                            });
+        }
+
+        public Result GetByPhoneOrEmail(string phone, string email)
+        {
+            return Result.Success()
+                            .ContinueAssert(!string.IsNullOrEmpty(phone) || !string.IsNullOrEmpty(email), "邮箱或手机信息为空")
+                            .Continue(re =>
+                            {
+                                re.Data = null;
+                                if (!string.IsNullOrEmpty(phone))
+                                    re.Data = dbContext.QueryOne<Account>(t => t.Phone == phone);
+                                else if (!string.IsNullOrEmpty(email))
+                                    re.Data = dbContext.QueryExist<Account>(t => t.Email == email);
+                                return re.ContinueAssert(re.Data != null, "该用户未注册");
                             });
         }
 
@@ -137,22 +156,23 @@ namespace SevenTiny.Cloud.UserFramework.Core.Service
             return Result.Error();
         }
 
-        public Result VerifyRegisterInfoByRegisteredMedia(Account account, string verificationCode)
+        public Result VerifyRegisterMsgByEmailLinkCode(string emailLinkVerificationCode)
         {
-            switch ((Core.Enum.RegisteredMedia)account.RegisteredMedia)
-            {
-                case Core.Enum.RegisteredMedia.UnKnown:
-                    return Result.Error("注册方式未确认");
-                case Core.Enum.RegisteredMedia.Phone:
-                    return Result.Success();
-                case Core.Enum.RegisteredMedia.SMS:
-                    return Result.Success();
-                case Core.Enum.RegisteredMedia.Email:
-                    return Result.Success();
-                default:
-                    break;
-            }
-            return Result.Error("验证注册验证码发生未知异常");
+            //这里需要在此解析玩链接后，校验用户是否被注册过
+            //...
+
+            //Result的Data要返回email地址，上游要用
+            throw new NotImplementedException();
+        }
+
+        public Result VerifyRegisterMsgByPhoneCode(string phone, string verificationCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result VerifyRegisterMsgByEmailCode(string email, string verificationCode)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -23,10 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenTiny.Cloud.UserFramewo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-documents", "00-documents", "{0B50CE95-6CCE-4B4D-831B-891330F32387}"
 	ProjectSection(SolutionItems) = preProject
-		C:\Users\wangdong3\Desktop\token-login.jpg = C:\Users\wangdong3\Desktop\token-login.jpg
-		C:\Users\wangdong3\Desktop\token-request.jpg = C:\Users\wangdong3\Desktop\token-request.jpg
+		注册流程.md = 注册流程.md
 		登陆流程.md = 登陆流程.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.SevenTiny.Cloud.UserFramework.Core", "..\10-Code\Test.SevenTiny.Cloud.UserFramework.Core\Test.SevenTiny.Cloud.UserFramework.Core.csproj", "{6B680027-B4B3-4103-BA4B-D2C8743852FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +55,10 @@ Global
 		{0E049369-8091-472C-A24C-832020BBCCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E049369-8091-472C-A24C-832020BBCCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E049369-8091-472C-A24C-832020BBCCE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B680027-B4B3-4103-BA4B-D2C8743852FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B680027-B4B3-4103-BA4B-D2C8743852FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B680027-B4B3-4103-BA4B-D2C8743852FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B680027-B4B3-4103-BA4B-D2C8743852FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +69,7 @@ Global
 		{E5B24144-0081-4D12-B755-387DED2DEB55} = {8405A102-2226-45B1-A446-D953A0242EA5}
 		{64BCFF12-4F88-4909-9C19-E3EEDE55F482} = {8405A102-2226-45B1-A446-D953A0242EA5}
 		{0E049369-8091-472C-A24C-832020BBCCE8} = {304457F3-B2AD-4AA8-AAAD-0044F6A50BB8}
+		{6B680027-B4B3-4103-BA4B-D2C8743852FD} = {FEC1B0F1-40B6-4C36-AB58-4420F4BA755C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC20692A-631E-4F97-8778-343FC09BB7A9}

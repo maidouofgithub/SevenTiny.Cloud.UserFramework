@@ -8,6 +8,7 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
     {
         Result IsExist(int userId);
         Result ValidateRegisterd(string phone, string email);
+        Result GetByPhoneOrEmail(string phone, string email);
         /// <summary>
         /// 正常登陆是不知道userid的，用下面这个对象承载登陆信息进行校验
         /// </summary>
@@ -35,11 +36,24 @@ namespace SevenTiny.Cloud.UserFramework.Core.ServiceContract
         /// <returns></returns>
         Result SendRegisterMsgByRegisteredMedia(Account account);
         /// <summary>
-        /// 根据注册方式校验验证信息
+        /// 通过短信或手机验证码校验
         /// </summary>
-        /// <param name="account"></param>
-        /// <param name="verificationCode">校验码，可以是各种字符串，如手机验证码，邮箱注册加密串等</param>
+        /// <param name="phone"></param>
+        /// <param name="verificationCode"></param>
         /// <returns></returns>
-        Result VerifyRegisterInfoByRegisteredMedia(Account account, string verificationCode);
+        Result VerifyRegisterMsgByPhoneCode(string phone, string verificationCode);
+        /// <summary>
+        /// 通过邮箱验证码校验
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="verificationCode"></param>
+        /// <returns></returns>
+        Result VerifyRegisterMsgByEmailCode(string email, string verificationCode);
+        /// <summary>
+        /// 根据邮箱注册链接的发送的验证码校验
+        /// </summary>
+        /// <param name="emailLinkVerificationCode"></param>
+        /// <returns></returns>
+        Result VerifyRegisterMsgByEmailLinkCode(string emailLinkVerificationCode);
     }
 }

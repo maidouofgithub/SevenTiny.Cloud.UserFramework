@@ -1,4 +1,4 @@
-﻿namespace SevenTiny.Cloud.UserFramework.Core.Const
+﻿namespace SevenTiny.Cloud.UserFramework.Infrastructure.Const
 {
     /// <summary>
     /// 密钥常量
